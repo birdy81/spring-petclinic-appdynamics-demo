@@ -1,8 +1,16 @@
 version: '2'
 services:
+  cmr:
+    image: inspectit/cmr:1.7.9.92
+    ports:
+    - "8182:8182"
+
   config-server:
     image: mszarlinski/spring-petclinic-config-server
     container_name: config-server
+    depends_on:
+      - cmr
+    entrypoint: ["./wait-for-it.sh","cmr:9070","--timeout=60","--","java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
     ports:
      - 8888:8888
 
@@ -23,10 +31,11 @@ services:
     links:
      - config-server
      - discovery-server
+     - cmr  
     depends_on:
      - config-server
      - discovery-server
-    entrypoint: ["./wait-for-it.sh","discovery-server:8761","--timeout=60","--","java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+    entrypoint: ["./wait-for-it.sh","discovery-server:8761","--timeout=60","--","java","-javaagent:/agent/inspectit-agent.jar","-Dinspectit.repository=cmr:9070","-Dinspectit.agent.name=customers-service","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
     ports:
     - 8081:8081
 
@@ -36,10 +45,11 @@ services:
     links:
      - config-server
      - discovery-server
+     - cmr
     depends_on:
      - config-server
      - discovery-server
-    entrypoint: ["./wait-for-it.sh","discovery-server:8761","--timeout=60","--","java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+    entrypoint: ["./wait-for-it.sh","discovery-server:8761","--timeout=60","--","java","-javaagent:/agent/inspectit-agent.jar","-Dinspectit.repository=cmr:9070","-Dinspectit.agent.name=visits-service","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
     ports:
      - 8082:8082
 
@@ -49,10 +59,11 @@ services:
     links:
      - config-server
      - discovery-server
+     - cmr
     depends_on:
      - config-server
      - discovery-server
-    entrypoint: ["./wait-for-it.sh","discovery-server:8761","--timeout=60","--","java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+    entrypoint: ["./wait-for-it.sh","discovery-server:8761","--timeout=60","--","java","-javaagent:/agent/inspectit-agent.jar","-Dinspectit.repository=cmr:9070","-Dinspectit.agent.name=vets-service","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
     ports:
      - 8083:8083
 
@@ -65,10 +76,11 @@ services:
      - customers-service
      - visits-service
      - vets-service
+     - cmr
     depends_on:
      - config-server
      - discovery-server
-    entrypoint: ["./wait-for-it.sh","discovery-server:8761","--timeout=60","--","java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+    entrypoint: ["./wait-for-it.sh","discovery-server:8761","--timeout=60","--","java","-javaagent:/agent/inspectit-agent.jar","-Dinspectit.repository=cmr:9070","-Dinspectit.agent.name=api-gateway","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
     ports:
      - 8080:8080
 
@@ -78,9 +90,10 @@ services:
     links:
      - config-server
      - discovery-server
+     - cmr
     depends_on:
      - config-server
      - discovery-server
-    entrypoint: ["./wait-for-it.sh","discovery-server:8761","--timeout=60","--","java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+    entrypoint: ["./wait-for-it.sh","discovery-server:8761","--timeout=60","--","java","-javaagent:/agent/inspectit-agent.jar","-Dinspectit.repository=cmr:9070","-Dinspectit.agent.name=admin-server","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
     ports:
      - 9090:9090
