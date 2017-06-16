@@ -6,10 +6,12 @@
 
 AGENTDIR="$1"
 
-if [ -e "$AGENTDIR/inspectit-agent.jar" ] 
-then 
+if [ -e "$AGENTDIR/inspectit-agent.jar" ]
+then
 
 	echo "Agent jar found."
+
+	mvn clean install -DskipTests
 
 
 	cd spring-petclinic-config-server
@@ -69,5 +71,5 @@ then
 else
 	echo Agent jar not found. Specify the path to the inspectIT agent
 	echo Example: ./start_all_with_inspectIT.sh /home/user/inspectIT/agent
-	echo In case you have not installed inspectIT go to https://github.com/inspectIT/inspectIT/releases	
+	echo In case you have not installed inspectIT go to https://github.com/inspectIT/inspectIT/releases
 fi
