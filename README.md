@@ -18,7 +18,15 @@ If everything goes well, you can access the following services at given location
 You can tell Config Server to use your local Git repository by using `local` Spring profile and setting
 `GIT_REPO` environment variable, for example:
 `-Dspring.profiles.active=local -DGIT_REPO=/projects/spring-petclinic-microservices-config`
-
+### Start script
+All services including the inspectIT Java Agent can be started with a start script:
+#### Windows
+Open a CMD and execute the script with the directory of the Java Agent:
+`start_all_with_inspectIT.bat \path\to\Java\Agent`. The services can be stopped by closing the CMD.
+#### Linux
+Open a Terminal and execute the script with the directory of the Java Agent:
+`start_all_with_inspectIT.sh \path\to\Java\Agent`. The services can be stopped by executing the following script:
+`stop_all.sh`
 ## Starting services locally with docker-compose
 In order to start entire infrastructure using Docker, you have to build images by executing `mvn clean install -PbuildDocker` 
 from a project root. Once images are ready, you can start them with a single command
