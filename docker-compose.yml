@@ -1,7 +1,7 @@
 version: '2'
 services:
   cmr:
-    image: inspectit/cmr:1.8.1.95
+    image: inspectit/cmr:1.8.2.96
     ports:
     - "8182:8182"
 
