@@ -22,10 +22,17 @@ You can tell Config Server to use your local Git repository by using `local` Spr
 All services including the inspectIT Java Agent can be started with a start script:
 #### Windows
 Open a CMD and execute the script with the directory of the Java Agent:
-`start_all_with_inspectIT.bat \path\to\Java\Agent`. The services can be stopped by closing the CMD.
+`start_all_with_inspectIT.bat \path\to\Java\Agent`.
+Additionally you can also set the InspectIT CMR host by passing in a second argument:
+`start_all_with_inspectIT.bat \path\to\Java\Agent localhost`. If no CMR host is provided `localhost` is used by default.   
+The services can be stopped by closing the CMD.  
+
 #### Linux
 Open a Terminal and execute the script with the directory of the Java Agent:
-`start_all_with_inspectIT.sh \path\to\Java\Agent`. The services can be stopped by executing the following script:
+`start_all_with_inspectIT.sh \path\to\Java\Agent`.
+Additionally you can also set the InspectIT CMR host by passing in a second argument:
+`start_all_with_inspectIT.sh \path\to\Java\Agent localhost`. If no CMR host is provided `localhost` is used by default.  
+The services can be stopped by executing the following script:
 `stop_all.sh`
 ## Starting services locally with docker-compose
 In order to start entire infrastructure using Docker, you have to build images by executing `mvn clean install -PbuildDocker`
