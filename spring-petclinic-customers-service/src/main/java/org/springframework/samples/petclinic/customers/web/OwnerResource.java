@@ -15,17 +15,31 @@
  */
 package org.springframework.samples.petclinic.customers.web;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.samples.petclinic.customers.model.Owner;
 import org.springframework.samples.petclinic.customers.model.OwnerRepository;
 import org.springframework.samples.petclinic.monitoring.Monitored;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.util.List;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Juergen Hoeller
@@ -42,6 +56,8 @@ class OwnerResource {
 
     private final OwnerRepository ownerRepository;
 
+    private final ExecutorService executor = Executors.newCachedThreadPool();
+    
     /**
      * Create Owner
      */
@@ -65,7 +81,18 @@ class OwnerResource {
      */
     @GetMapping
     public List<Owner> findAll() {
-        return ownerRepository.findAll();
+    	Future<List<Owner>> future = executor.submit(new Callable<List<Owner>>() {
+			@Override
+			public List<Owner> call() throws Exception {
+				return ownerRepository.findAll();
+			}
+		});
+    	
+        try {
+			return future.get();
+		} catch (Exception e) {
+			return Collections.emptyList();
+		}
     }
 
     /**
