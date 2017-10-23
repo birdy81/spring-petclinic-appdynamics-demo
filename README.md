@@ -1,4 +1,4 @@
-# Distributed version of the Spring PetClinic Sample Application built with Spring Cloud 
+# Distributed version of the Spring PetClinic Sample Application built with Spring Cloud
 
 [![Build Status](https://travis-ci.org/spring-petclinic/spring-petclinic-microservices.svg?branch=master)](https://travis-ci.org/spring-petclinic/spring-petclinic-microservices/) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Dependency Status](https://www.versioneye.com/user/projects/58b2c56f9ceb450031272d6a/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/58b2c56f9ceb450031272d6a)
 
@@ -11,7 +11,7 @@ If everything goes well, you can access the following services at given location
 * Discovery Server - http://localhost:8761
 * Config Server - http://localhost:8888
 * AngularJS frontend (API Gateway) - http://localhost:8080
-* Customers, Vets and Visits Services - random port, check Eureka Dashboard 
+* Customers, Vets and Visits Services - random port, check Eureka Dashboard
 * Tracing Server (Zipkin) - http://localhost:9411
 * Admin Server (Spring Boot Admin) - http://localhost:9090
 
@@ -28,12 +28,29 @@ Open a Terminal and execute the script with the directory of the Java Agent:
 `start_all_with_inspectIT.sh \path\to\Java\Agent`. The services can be stopped by executing the following script:
 `stop_all.sh`
 ## Starting services locally with docker-compose
-In order to start entire infrastructure using Docker, you have to build images by executing `mvn clean install -PbuildDocker` 
+In order to start entire infrastructure using Docker, you have to build images by executing `mvn clean install -PbuildDocker`
 from a project root. Once images are ready, you can start them with a single command
-`docker-compose up`. Containers startup order is coordinated with [`wait-for-it.sh` script](https://github.com/vishnubob/wait-for-it). 
+`docker-compose up`. Containers startup order is coordinated with [`wait-for-it.sh` script](https://github.com/vishnubob/wait-for-it).
 After starting services it takes a while for API Gateway to be in sync with service registry,
 so don't be scared of initial Zuul timeouts. You can track services availability using Eureka dashboard
 available by default at http://localhost:8761.
+
+## JMeter load test
+A JMX JMeter file for the Petclinic can be found inside the jmeter directory and is called `pet_clinic_load_test.jmx`. The JMX file can be parameterized with the following parameters and their default values inside the brackets:
+
+* `JHOST` - The host of the system under test (localhost)
+* `JPORT` - The port of the system under test (8080)
+* `JUSERS` - The number of users (3)
+* `JRAMPUP` - The rampup time in seconds (10)
+* `JINFLUXDB_HOST` - The influx database host (localhost)
+* `JLOOPCOUNT` - The number of iterations (30)
+* `JDURATION` - The duration of the test in seconds (100)
+* `JDELAY` - The delay of the thread creation in seconds (10000)
+
+To start a JMeter load test use the following command:
+
+`jmeter -t jmx_file -n -JHOST="localhost" -JPORT="8080" -JUSERS=3`
+
 
 ## Understanding the Spring Petclinic application with a few diagrams
 <a href="https://speakerdeck.com/michaelisvy/spring-petclinic-sample-application">See the presentation here</a>
