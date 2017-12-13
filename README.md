@@ -35,7 +35,7 @@ Additionally you can also set the InspectIT CMR host by passing in a second argu
 The services can be stopped by executing the following script:
 `stop_all.sh`
 
-####macOS
+#### macOS
 The macOS users need to first perform following commands (see https://github.com/vishnubob/wait-for-it/issues/15) in order to solve the problem of missing `timeout` function on their OS:
 ```
 brew install coreutils
