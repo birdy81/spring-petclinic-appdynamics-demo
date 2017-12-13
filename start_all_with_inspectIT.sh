@@ -4,7 +4,7 @@
 #the path to the inspectit installation folder and the waittime between the startup of the services
 #!!!!do not use spaces in the path of the inspectIT installation folder!!!!
 
-if [ "$#" -le 1 ]; then
+if [ "$#" -lt 1 ]; then
   echo "Please specify the path to the inspectIT agent"
   exit 1
 fi
