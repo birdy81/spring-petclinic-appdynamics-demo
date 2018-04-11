@@ -1,6 +1,6 @@
-# Distributed version of the Spring PetClinic Sample Application built with Spring Cloud
+# Small extension to make the awesome PetClinic a small sample application for AppDynamics
 
-[![Build Status](https://travis-ci.org/spring-petclinic/spring-petclinic-microservices.svg?branch=master)](https://travis-ci.org/spring-petclinic/spring-petclinic-microservices/) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) [![Dependency Status](https://www.versioneye.com/user/projects/58b2c56f9ceb450031272d6a/badge.svg?style=flat-square)](https://www.versioneye.com/user/projects/58b2c56f9ceb450031272d6a)
+[![Build Status](https://travis-ci.org/spring-petclinic/spring-petclinic-appdynamics-demo.svg?branch=master)](https://travis-ci.org/spring-petclinic/spring-petclinic-microservices/) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 This microservices branch was initially derived from [AngularJS version](https://github.com/spring-petclinic/spring-petclinic-angular1) to demonstrate how to split sample Spring application into [microservices](http://www.martinfowler.com/articles/microservices.html). To achieve that goal we used [Spring Cloud Netflix](https://github.com/spring-cloud/spring-cloud-netflix) technology stack.
 
@@ -19,19 +19,16 @@ You can tell Config Server to use your local Git repository by using `local` Spr
 `GIT_REPO` environment variable, for example:
 `-Dspring.profiles.active=local -DGIT_REPO=/projects/spring-petclinic-microservices-config`
 ### Start script
-All services including the inspectIT Java Agent can be started with a start script:
+All services including the AppDynamics Java Agent can be started with a start script:
 #### Windows
-Open a CMD and execute the script with the directory of the Java Agent:
-`start_all_with_inspectIT.bat \path\to\Java\Agent`.
-Additionally you can also set the InspectIT CMR host by passing in a second argument:
-`start_all_with_inspectIT.bat \path\to\Java\Agent localhost`. If no CMR host is provided `localhost` is used by default.
+Open a CMD and execute the script:
+`start_all_with_appdynamics.bat`.
 The services can be stopped by closing the CMD.
 
 #### Linux
-Open a Terminal and execute the script with the directory of the Java Agent:
-`start_all_with_inspectIT.sh \path\to\Java\Agent`.
-Additionally you can also set the InspectIT CMR host by passing in a second argument:
-`start_all_with_inspectIT.sh \path\to\Java\Agent localhost`. If no CMR host is provided `localhost` is used by default.
+Open a Terminal and execute the script:
+`start_all_with_appdynamics.sh`.
+
 The services can be stopped by executing the following script:
 `stop_all.sh`
 
@@ -113,6 +110,6 @@ docker run -e MYSQL_ROOT_PASSWORD=petclinic -e MYSQL_DATABASE=petclinic -p 3306:
 
 # Contributing
 
-The [issue tracker](https://github.com/spring-petclinic/spring-petclinic-microservices/issues) is the preferred channel for bug reports, features requests and submitting pull requests.
+The [issue tracker](https://github.com/spring-petclinic/spring-petclinic-appdynamics-demo/issues) is the preferred channel for bug reports, features requests and submitting pull requests.
 
 For pull requests, editor preferences are available in the [editor config](.editorconfig) for easy use in common text editors. Read more and download plugins at <http://editorconfig.org>.

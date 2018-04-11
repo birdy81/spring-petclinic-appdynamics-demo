@@ -10,5 +10,8 @@ target/
 .idea
 *.iml
 
+# AppDynamics agent may not be provided
+put-appdynamics-agent-here/
+
 # Branch switching
 generated/
