@@ -2,9 +2,6 @@
 #usage: ./start_all_with_appdynamics.sh
 #the startup scipt must be placed in the same folder than the spring petclinic microservice application
 
-# uncomment if you already built.
-mvn clean install -DskipTests
-
 cd spring-petclinic-config-server/target
 echo "Starting Configuration Server"
 java -javaagent:../../put-appdynamics-agent-here/javaagent.jar -Dappdynamics.agent.tierName=ConfigurationService -Dappdynamics.agent.nodeName=ConfigurationServiceNode -jar spring-petclinic-config-server-1.5.1.jar &
