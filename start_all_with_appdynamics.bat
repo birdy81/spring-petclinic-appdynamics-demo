@@ -66,30 +66,30 @@ set /a "x = 0"
 
 cd spring-petclinic-customers-service
 echo "Starting Customers Service"
-start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-Dappdynamics.agent.tierName=CustomerService"
+start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:..\put-appdynamics-agent-here\javaagent.jar -Dappdynamics.agent.tierName=CustomerService"
 cd ..
 ping 127.0.0.1 -n %WAITTIME% > nul
 cd spring-petclinic-vets-service
 echo "Starting Vets Service"
-start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-Dappdynamics.agent.tierName=VetsService"
+start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:..\put-appdynamics-agent-here\javaagent.jar -Dappdynamics.agent.tierName=VetsService"
 cd ..
 ping 127.0.0.1 -n %WAITTIME% > nul
 cd spring-petclinic-visits-service
 echo "Starting Visits Service"
-start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-Dappdynamics.agent.tierName=VisitsService"
+start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:..\put-appdynamics-agent-here\javaagent.jar -Dappdynamics.agent.tierName=VisitsService"
 cd ..
 ping 127.0.0.1 -n %WAITTIME% > nul
 cd spring-petclinic-api-gateway
 echo "Starting API Gateway"
 if exist api-gateway-log.txt del api-gateway-log.txt
 ping 127.0.0.1 -n 1 > nul
-start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-Dappdynamics.agent.tierName=ApiGateway" > api-gateway-log.txt
+start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:..\put-appdynamics-agent-here\javaagent.jar -Dappdynamics.agent.tierName=ApiGateway" > api-gateway-log.txt
 cd ..
 ping 127.0.0.1 -n %WAITTIME% > nul
 cd spring-petclinic-admin-server
 echo "Starting Admin Server"
 ping 127.0.0.1 -n %WAITTIME% > nul
-start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-Dappdynamics.agent.tierName=AdminServer"
+start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:..\put-appdynamics-agent-here\javaagent.jar -Dappdynamics.agent.tierName=AdminServer"
 cd ..
 echo|set /p="Waiting for Api Gateway"
 :loop3

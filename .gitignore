@@ -11,7 +11,8 @@ target/
 *.iml
 
 # AppDynamics agent may not be provided
-put-appdynamics-agent-here/
+/put-appdynamics-agent-here/*
+!/put-appdynamics-agent-here
 
 # Branch switching
 generated/
