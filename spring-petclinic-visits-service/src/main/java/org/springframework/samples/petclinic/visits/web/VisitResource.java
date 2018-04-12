@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author Juergen Hoeller
@@ -53,6 +54,16 @@ public class VisitResource {
 
     @GetMapping("owners/*/pets/{petId}/visits")
     public List<Visit> visits(@PathVariable("petId") int petId) {
+
+        // lets spice things a bit up and sometimes integrate some longer load times
+        if (Math.random() < 0.1) {
+            try {
+                Thread.currentThread().sleep(2000);
+            } catch (InterruptedException e) {
+                // ignore
+            }
+        }
+
         return visitRepository.findByPetId(petId);
     }
 }
