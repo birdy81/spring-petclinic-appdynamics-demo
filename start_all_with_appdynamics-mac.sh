@@ -14,7 +14,7 @@ echo "Starting Discovery Server"
 java -javaagent:../../put-appdynamics-agent-here/javaagent.jar -Dappdynamics.agent.tierName=DiscoveryServer -Dappdynamics.agent.nodeName=DiscoveryServerNode -jar spring-petclinic-discovery-server-1.5.1.jar &
 cd ../..
 
-./wait-for-it-mac.sh localhost:8761 --timeout=60
+./wait-for-it-mac.sh localhost:8761 --timeout=180
 
 open http://localhost:8761
 
