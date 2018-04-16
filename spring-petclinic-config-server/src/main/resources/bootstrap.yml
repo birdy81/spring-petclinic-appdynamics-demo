@@ -12,4 +12,4 @@ spring:
     config:
       server:
         git:
-          uri: file:///${user.home}/something
+          uri: file:///${user.home}/spring-petclinic-microservices-config

@@ -2,9 +2,16 @@
 #usage: ./start_all_with_appdynamics.sh
 #the startup scipt must be placed in the same folder than the spring petclinic microservice application
 
+# Note that this startup script uses the spring boot profile local to load the necessary configuration for the
+# config server from a local Git repository. This is meant to be used in situations where you do not have access
+# to the internet.
+#
+# This setup expects that you have the GitHub repository https://github.com/NovaTec-APM/spring-petclinic-microservices-config cloned
+# to ${user.home}/spring-petclinic-microservices-config
+
 cd spring-petclinic-config-server/target
 echo "Starting Configuration Server"
-java -javaagent:../../put-appdynamics-agent-here/javaagent.jar -Dappdynamics.agent.tierName=ConfigurationService -Dappdynamics.agent.nodeName=ConfigurationServiceNode -jar spring-petclinic-config-server-1.5.1.jar &
+java -Dspring.profiles.active=local -javaagent:../../put-appdynamics-agent-here/javaagent.jar -Dappdynamics.agent.tierName=ConfigurationService -Dappdynamics.agent.nodeName=ConfigurationServiceNode -jar spring-petclinic-config-server-1.5.1.jar &
 cd ../..
 
 ./wait-for-it-mac.sh localhost:8888 --timeout=60

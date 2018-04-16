@@ -38,7 +38,9 @@ The macOS users need to first perform following commands (see https://github.com
 brew install coreutils
 alias timeout=gtimeout
 ```
-Aside from this, the instructions should be same as for Linux users.
+
+Please also use the customized startup scripts for Mac.
+
 
 ## Starting services locally with docker-compose
 In order to start entire infrastructure using Docker, you have to build images by executing `mvn clean install -PbuildDocker`
@@ -75,6 +77,54 @@ You can then access petclinic here: http://localhost:8080/
 ## In case you find a bug/suggested improvement for Spring Petclinic Microservices
 
 Our issue tracker is available here: https://github.com/spring-petclinic/spring-petclinic-microservices/issues
+
+## AppDynamics configuration
+
+### Enable HSQLDB monitoring
+The default sample runs on HSQLDB, which is often not recognized by AppDynamics out of the box. In order to add the
+monitoring you need to add node specific configurations:
+
+```
+jdbc-callable-statements=org.hsqldb.jdbc.JDBCCallableStatement
+jdbc-connections=org.hsqldb.jdbc.JDBCConnection
+jdbc-prepared-statements=org.hsqldb.jdbc.JDBCPreparedStatement
+jdbc-statements=org.hsqldb.jdbc.JDBCStatement
+```
+
+
+## Local execution
+
+This example can run locally. If it does not, please check the following:
+
+#### Configuration Service accesses the internet
+The default configuration service (ConfigServer) gets the configurations from the internet. The setting is done at
+```
+spring-petclinic-appdynamics-demo/spring-petclinic-config-server/src/main/resources/bootstrap.yml
+```
+
+Note that a local configuration can be given. By default the local configuration expects that the
+configuration repository resides in your users home folder, but you can easily change that in the file.
+
+You can tell Config Server to use your local Git repository by using local Spring profile and setting GIT_REPO environment variable, for example: -Dspring.profiles.active=local -DGIT_REPO=/projects/spring-petclinic-microservices-config
+
+This example also provides a startup script that sets the spring.profiles to local
+
+#### DNS resolution
+Sometimes (at least on Macs) the local name resolution of the services cannot be performed as they use the host name, which is not
+necessarily mapped to the loopback device. You can easily check this by navigating to the Eureka server and checking if you can
+reach the services:
+
+```
+http://localhost:8761/
+```
+
+If you cannot reach a registered service, note the logical it is invoked with and simply add an entry to your hosts file (/etc/hosts).
+If you are on Mac you can flush your DNS cache:
+
+```
+sudo /usr/bin/dscacheutil -flushcache
+```
+
 
 ## Database configuration
 
