@@ -24,6 +24,7 @@ import org.springframework.samples.petclinic.monitoring.Monitored;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Juergen Hoeller
@@ -63,6 +64,15 @@ class PetResource {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Monitored
     public void processUpdateForm(@RequestBody PetRequest petRequest) {
+        // only do that is we have a "Snake" (type 4)
+        if (petRequest.getTypeId() == 4) {
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         save(petRepository.findOne(petRequest.getId()), petRequest);
     }
 

@@ -17,10 +17,7 @@ package org.springframework.samples.petclinic.customers.web;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 import javax.validation.Valid;
 
@@ -54,10 +51,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 class OwnerResource {
 
-    private final OwnerRepository ownerRepository;
+    private final OwnerRepository ownerRepository = null;
 
     private final ExecutorService executor = Executors.newCachedThreadPool();
-    
+
     /**
      * Create Owner
      */
@@ -73,6 +70,16 @@ class OwnerResource {
      */
     @GetMapping(value = "/{ownerId}")
     public Owner findOwner(@PathVariable("ownerId") int ownerId) {
+
+        // introduce some performance problem (in the most easy way)
+        if (ownerId % 11 == 0) {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
         return ownerRepository.findOne(ownerId);
     }
 
@@ -87,7 +94,7 @@ class OwnerResource {
 				return ownerRepository.findAll();
 			}
 		});
-    	
+
         try {
 			return future.get();
 		} catch (Exception e) {
