@@ -91,6 +91,30 @@ jdbc-prepared-statements=org.hsqldb.jdbc.JDBCPreparedStatement
 jdbc-statements=org.hsqldb.jdbc.JDBCStatement
 ```
 
+## Request and potential business transactions
+
+Operation | Request | Method | AppDynamics BT matching
+--- | ---  | --- | ---
+Home | / | | URL equals /
+List Owners | /api/customer/owners | GET | URL equals and type equals
+Register Owner | /api/customer/owners | POST | URL equals and type equals
+Select Owner / Edit Owner Screen | /api/gateway/owners/{id} or /api/customer/owners/{id} or /owners/{id} | GET | URL regex (/api/gateway\|customer/owners/\d*\|/owners/\d*), method equals
+Edit Owner | /api/customer/owners/{id} | PUT | URL regex /api/gateway/owners/\d*, method equals
+Show All Pets of Owner | api/customer/owners/{id}/pets | GET | URL regex /api/gateway/owners/\d*/pets, method equals
+Select Pet Of Owner | /api/customer/owners/{id}/pets/{pet-id}| GET | URL regex /api/gateway/owners/\d*/pets/\d*, method equals
+Edit Pet Of Owner | /api/customer/owners/{id}/pets/{pet-id} | PUT | URL regex /api/gateway/owners/\d*/pets/\d*, method equals
+Add Pet to Owner | /api/customer/owners/{id}/pets | POST | URL regex /api/gateway/owners/\d*/pets, method equals
+Show Visits | /api/visit/owners/{id}/pets/{pet-id}/visits | GET | URL regex /api/gateway/owners/\d*/pets/\d*/visits, method equals
+Add Visit | /api/visit/owners/{id}/pets/{pet-id}/visits | POST | URL regex /api/gateway/owners/\d*/pets/\d*/visits, method equals
+Show Vets | /api/vet/vets | GET | URL equals and type equals
+Get Pet Types | /api/customer/petTypes | GET | URL equals and type equals
+
+Part / Section | Identification
+--- | ---
+Templates | contains template.html
+Status Update | Method invocation on de.codecentric.boot.admin.registry.StatusUpdater.updateStatusForAllApplications()
+Health Check | /health
+Scripts | starts with /scripts
 
 ## Local execution
 
@@ -125,6 +149,17 @@ If you are on Mac you can flush your DNS cache:
 sudo /usr/bin/dscacheutil -flushcache
 ```
 
+
+## Performance "problems"
+This extension includes some very simple performance problems on purpose to visualize how APM tools can
+detect these and show them to the user.
+
+- Creating a new pet with the type Snake will impose a 2s delay.
+- Finding a customer with a customer ID that can be divided by 11 wil impose a 1s delay.
+
+## Intellij setup
+
+- Please make sure to install the Lombok Plugin
 
 ## Database configuration
 
