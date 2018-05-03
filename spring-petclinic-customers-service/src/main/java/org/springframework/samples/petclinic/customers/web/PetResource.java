@@ -64,6 +64,14 @@ class PetResource {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Monitored
     public void processUpdateForm(@RequestBody PetRequest petRequest) {
+        save(petRepository.findOne(petRequest.getId()), petRequest);
+    }
+
+    private void save(final Pet pet, final PetRequest petRequest) {
+
+        pet.setName(petRequest.getName());
+        pet.setBirthDate(petRequest.getBirthDate());
+
         // only do that is we have a "Snake" (type 4)
         if (petRequest.getTypeId() == 4) {
             try {
@@ -72,14 +80,6 @@ class PetResource {
                 e.printStackTrace();
             }
         }
-
-        save(petRepository.findOne(petRequest.getId()), petRequest);
-    }
-
-    private void save(final Pet pet, final PetRequest petRequest) {
-
-        pet.setName(petRequest.getName());
-        pet.setBirthDate(petRequest.getBirthDate());
 
         petRepository.findPetTypeById(petRequest.getTypeId())
             .ifPresent(pet::setType);
