@@ -12,7 +12,6 @@ If everything goes well, you can access the following services at given location
 * Config Server - http://localhost:8888
 * AngularJS frontend (API Gateway) - http://localhost:8080
 * Customers, Vets and Visits Services - random port, check Eureka Dashboard
-* Tracing Server (Zipkin) - http://localhost:9411
 * Admin Server (Spring Boot Admin) - http://localhost:9090
 
 You can tell Config Server to use your local Git repository by using `local` Spring profile and setting
@@ -80,6 +79,8 @@ Our issue tracker is available here: https://github.com/spring-petclinic/spring-
 
 ## AppDynamics configuration
 
+This project comes with a sample configuration exported from AppDynamics 4.3.8 (PetStore_AppDynamics_Application.xml)
+
 ### Enable HSQLDB monitoring
 The default sample runs on HSQLDB, which is often not recognized by AppDynamics out of the box. In order to add the
 monitoring you need to add node specific configurations:
@@ -115,6 +116,18 @@ Templates | contains template.html
 Status Update | Method invocation on de.codecentric.boot.admin.registry.StatusUpdater.updateStatusForAllApplications()
 Health Check | /health
 Scripts | starts with /scripts
+
+## Service Endpoints
+Basically just changing the ootb configuration to only use the first part
+of the URI is enough to have a good first start.
+
+## Information points
+For demonstration sake this example includes some information points as well.
+The idea is that for every pet type that is saved a unique information
+point is created.
+
+Pets are saved in the class org.springframework.samples.petclinic.customers.web.PetResource in the method save. The save method takes as second parameter an instance of PetRequest, which provides a getTypeId() method returning the pet type
+There are six different pets: Cat (1), Dog (2), Lizard (3), Snake (4), Bird (5), Hamster (6)
 
 ## Local execution
 
@@ -154,8 +167,11 @@ sudo /usr/bin/dscacheutil -flushcache
 This extension includes some very simple performance problems on purpose to visualize how APM tools can
 detect these and show them to the user.
 
-- Creating a new pet with the type Snake will impose a 2s delay.
-- Finding a customer with a customer ID that can be divided by 11 wil impose a 1s delay.
+- Creating a new pet with the type Snake will impose a 1s delay. This is interesting if you have a look at the defined information points.
+- Finding a customer with a customer ID that can be divided by 11 wil impose a 1s delay. The base setup only created 10 users, so these will all be fast.
+- Vets have a performance problem that is increasing with load. A wait within synchronized block simulates synchronized work. With higher
+  loads on the service, the problem will heavily increase. To showcase this problem there is a specialized load test
+  available that heavily accesses the vets page.
 
 ## Intellij setup
 
