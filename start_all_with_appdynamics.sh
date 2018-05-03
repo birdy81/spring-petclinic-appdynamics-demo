@@ -14,7 +14,6 @@ cd ../..
 
 cd spring-petclinic-discovery-server/target
 echo "Starting Discovery Server"
-mvn spring-boot:run &
 java -javaagent:../../put-appdynamics-agent-here/javaagent.jar -Dappdynamics.agent.tierName=DiscoveryServer -Dappdynamics.agent.nodeName=DiscoveryServerNode -jar spring-petclinic-discovery-server-1.5.1.jar &
 cd ../..
 
