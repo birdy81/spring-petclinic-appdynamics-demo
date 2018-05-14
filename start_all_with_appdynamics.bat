@@ -66,30 +66,30 @@ set /a "x = 0"
 
 cd spring-petclinic-customers-service
 echo "Starting Customers Service"
-start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:..\put-appdynamics-agent-here\javaagent.jar -Dappdynamics.agent.tierName=CustomerService"
+start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:C:\Users\CV\Applications\AppServerAgent-4.3.5.7\javaagent.jar -Dappdynamics.agent.tierName=CustomerService -Dappdynamics.agent.nodeName=CustomerServiceNode"
 cd ..
 ping 127.0.0.1 -n %WAITTIME% > nul
 cd spring-petclinic-vets-service
 echo "Starting Vets Service"
-start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:..\put-appdynamics-agent-here\javaagent.jar -Dappdynamics.agent.tierName=VetsService"
+start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:C:\Users\CV\Applications\AppServerAgent-4.3.5.7\javaagent.jar -Dappdynamics.agent.tierName=VetsService -Dappdynamics.agent.nodeName=VetsServiceNode"
 cd ..
 ping 127.0.0.1 -n %WAITTIME% > nul
 cd spring-petclinic-visits-service
 echo "Starting Visits Service"
-start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:..\put-appdynamics-agent-here\javaagent.jar -Dappdynamics.agent.tierName=VisitsService"
+start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:C:\Users\CV\Applications\AppServerAgent-4.3.5.7\javaagent.jar -Dappdynamics.agent.tierName=VisitsService -Dappdynamics.agent.nodeName=VisitsServiceNode"
 cd ..
 ping 127.0.0.1 -n %WAITTIME% > nul
 cd spring-petclinic-api-gateway
 echo "Starting API Gateway"
 if exist api-gateway-log.txt del api-gateway-log.txt
 ping 127.0.0.1 -n 1 > nul
-start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:..\put-appdynamics-agent-here\javaagent.jar -Dappdynamics.agent.tierName=ApiGateway" > api-gateway-log.txt
+start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:C:\Users\CV\Applications\AppServerAgent-4.3.5.7\javaagent.jar -Dappdynamics.agent.tierName=ApiGateway -Dappdynamics.agent.nodeName=ApiGatewayNode" > api-gateway-log.txt
 cd ..
 ping 127.0.0.1 -n %WAITTIME% > nul
 cd spring-petclinic-admin-server
 echo "Starting Admin Server"
 ping 127.0.0.1 -n %WAITTIME% > nul
-start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:..\put-appdynamics-agent-here\javaagent.jar -Dappdynamics.agent.tierName=AdminServer"
+start %STARTTYPE% mvn spring-boot:run -Drun.jvmArguments="-javaagent:C:\Users\CV\Applications\AppServerAgent-4.3.5.7\javaagent.jar -Dappdynamics.agent.tierName=AdminServer -Dappdynamics.agent.nodeName=AdminServerNode"
 cd ..
 echo|set /p="Waiting for Api Gateway"
 :loop3
